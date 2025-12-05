@@ -13,8 +13,8 @@ ARG NEXT_PUBLIC_ZORA_API_KEY
 ENV NEXT_PUBLIC_ZORA_API_KEY $NEXT_PUBLIC_ZORA_API_KEY
 ARG NEXT_PUBLIC_BASE_RPC_URL
 ENV NEXT_PUBLIC_BASE_RPC_URL $NEXT_PUBLIC_BASE_RPC_URL
-ARG NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID
-ENV NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID $NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID
+ARG NEXT_PUBLIC_ZORA_API_KEY
+ENV NEXT_PUBLIC_ZORA_API_KEY $NEXT_PUBLIC_ZORA_API_KEY
 
 # Setting up the work directory
 WORKDIR /app
@@ -26,10 +26,10 @@ COPY . .
 RUN pnpm install --production=false
 
 # Add sharp from alpine image for nextjs image optimization
-RUN cd apps/web && pnpm add sharp --production=false
+RUN pnpm add sharp --production=false
 
 # Build the web app
-RUN pnpm build:web
+RUN pnpm build
 
 # Set port provided by railway
 ARG PORT
@@ -37,4 +37,4 @@ ARG PORT
 # Expose the port 
 EXPOSE $PORT
 
-CMD ["sh", "-c", "sleep 3 && pnpm start:web"]
+CMD ["sh", "-c", "sleep 3 && pnpm start"]
