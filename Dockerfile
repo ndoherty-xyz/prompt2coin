@@ -29,7 +29,7 @@ RUN pnpm install --production=false
 RUN pnpm add sharp --production=false
 
 # Add server external packages (issue linked in next config)
-RUN pnpm add pino pino-pretty thread-stream
+RUN pnpm install pino@7.11.0 thread-stream@0.15.2 --save-exact
 
 # Build the web app
 RUN pnpm build
