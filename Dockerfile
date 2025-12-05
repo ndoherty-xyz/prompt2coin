@@ -28,6 +28,9 @@ RUN pnpm install --production=false
 # Add sharp from alpine image for nextjs image optimization
 RUN pnpm add sharp --production=false
 
+# Add server external packages (issue linked in next config)
+RUN pnpm add pino pino-pretty thread-stream
+
 # Build the web app
 RUN pnpm build
 
