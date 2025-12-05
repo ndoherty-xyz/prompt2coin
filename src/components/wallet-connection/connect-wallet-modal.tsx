@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useChainId, useConnect, useConnectors, useSwitchChain } from "wagmi";
 import { Button } from "../ui/button";
 import { ReusableModal } from "../ui/modal";
@@ -15,9 +15,14 @@ export const ConnectWalletModal = (props: ConnectWalletModalProps) => {
   const { mutate: switchChain } = useSwitchChain();
   const chainId = useChainId();
 
-  const { error: connectError, mutate: connect } = useConnect({
+  const {
+    error: connectError,
+    mutate: connect,
+    reset,
+  } = useConnect({
     mutation: {
       onSuccess() {
+        props.setOpen(false);
         // ensure we're on base
         if (chainId !== base.id) {
           switchChain({ chainId: base.id });
@@ -28,33 +33,66 @@ export const ConnectWalletModal = (props: ConnectWalletModalProps) => {
 
   const connectors = useConnectors();
 
+  useEffect(() => {
+    if (props.open) reset();
+  }, [props.open]);
+
   return (
     <ReusableModal
       open={props.open}
       setOpen={(o) => props.setOpen(o)}
       modalTitle="Connect wallet"
+      className="md:max-w-[400px]"
     >
-      <div className="flex flex-col gap-2">
-        {connectors.map((connector) => (
-          <Button
-            variant="default"
-            key={connector.id}
-            onClick={() => {
-              if (connector.name === "WalletConnect") {
-                props.setOpen(false);
-              }
-              connect({ connector });
-            }}
-          >
-            {connector.name === "Injected" ? "Browser Wallet" : connector.name}
-          </Button>
-        ))}
+      <div className="flex flex-col gap-[20px]">
+        <p className="text-center font-sans text-sm text-text-tertiary font-light">
+          Choose a wallet option below
+        </p>
 
-        {connectError && (
-          <p className="text-red-primary font-sans text-sm">
-            {connectError.message}
-          </p>
-        )}
+        <div className="flex flex-col gap-2">
+          {connectors.map((connector) => {
+            if (connector.name === "Injected" && typeof window !== undefined) {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              if (!(window as any).ethereum) {
+                return null;
+              } else {
+                // only show browser wallet if window.ethereum is there
+                return (
+                  <Button
+                    variant="secondary"
+                    key={connector.id}
+                    onClick={() => {
+                      connect({ connector });
+                    }}
+                  >
+                    Browser Wallet
+                  </Button>
+                );
+              }
+            } else {
+              return (
+                <Button
+                  variant="secondary"
+                  key={connector.id}
+                  onClick={() => {
+                    if (connector.name === "WalletConnect") {
+                      props.setOpen(false);
+                    }
+                    connect({ connector });
+                  }}
+                >
+                  {connector.name}
+                </Button>
+              );
+            }
+          })}
+
+          {connectError && (
+            <p className="text-red-primary font-sans text-sm">
+              {connectError.message}
+            </p>
+          )}
+        </div>
       </div>
     </ReusableModal>
   );
