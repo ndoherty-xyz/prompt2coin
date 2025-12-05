@@ -59,6 +59,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  --animate-generation: generation 1300ms ease-out infinite;
 }
 
 :root {
@@ -111,6 +113,18 @@
 
   --red-primary: #a81e1e;
   --red-secondary: #f3baba;
+}
+
+@keyframes generation {
+  0% {
+    transform: scale(100%);
+  }
+  50% {
+    transform: scale(110%);
+  }
+  100% {
+    transform: scale(100%);
+  }
 }
 
 @layer base {

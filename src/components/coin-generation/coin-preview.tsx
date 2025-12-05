@@ -27,14 +27,14 @@ export const CoinPreviewCard = (props: CoinPreviewCardProps) => {
             size={50}
             className={cn(
               "text-text-tertiary",
-              props.isGenerating ? "animate-spin" : ""
+              props.isGenerating ? "animate-generation" : ""
             )}
           />
         )}
       </div>
       <div className="flex flex-col gap-[4px]">
         <div className="flex justify-between gap-[16px] items-start">
-          <h3 className="font-medium tracking-tight font-stretch-condensed font-headline text-2xl">
+          <h3 className="font-medium tracking-tight font-stretch-condensed font-headline text-2xl break-all">
             {props.name ? props.name : "Coin Title"}
           </h3>
           <h6 className="font-light text-gray-500 text-sm break-all">
@@ -43,7 +43,7 @@ export const CoinPreviewCard = (props: CoinPreviewCardProps) => {
         </div>
 
         {props.description ? (
-          <p className="text-gray-500 text-md">{props.description}</p>
+          <p className="text-gray-500 text-md break-all">{props.description}</p>
         ) : null}
       </div>
     </div>
