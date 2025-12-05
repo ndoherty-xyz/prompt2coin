@@ -3,10 +3,6 @@ import { NextResponse } from "next/server";
 import { uploadCoinImage } from "@/utils/storage";
 import crypto from "node:crypto";
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 export async function POST(req: Request) {
   if (!process.env.OPENAI_API_KEY) {
     return errorResponse(
@@ -15,6 +11,10 @@ export async function POST(req: Request) {
       503
     );
   }
+
+  const client = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
 
   if (!process.env.PUBLIC_BUCKET_PROXY_URL) {
     return errorResponse(

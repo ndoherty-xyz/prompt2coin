@@ -7,15 +7,15 @@ const ACCESS_KEY_ID = process.env.RAILWAY_BUCKET_ACCESS_KEY_ID;
 const SECRET_ACCESS_KEY = process.env.RAILWAY_BUCKET_SECRET_ACCESS_KEY;
 
 if (!REGION || !ENDPOINT || !BUCKET || !ACCESS_KEY_ID || !SECRET_ACCESS_KEY) {
-  throw new Error("Bucket env vars not configured");
+  console.warn("Bucket env vars not configured");
 }
 
 export const s3 = new S3Client({
-  region: REGION,
-  endpoint: ENDPOINT,
+  region: REGION!,
+  endpoint: ENDPOINT!,
   credentials: {
-    accessKeyId: ACCESS_KEY_ID,
-    secretAccessKey: SECRET_ACCESS_KEY,
+    accessKeyId: ACCESS_KEY_ID!,
+    secretAccessKey: SECRET_ACCESS_KEY!,
   },
   forcePathStyle: true,
 });
