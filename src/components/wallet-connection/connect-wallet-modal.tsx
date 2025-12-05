@@ -51,7 +51,10 @@ export const ConnectWalletModal = (props: ConnectWalletModalProps) => {
 
         <div className="flex flex-col gap-2">
           {connectors.map((connector) => {
-            if (connector.name === "Injected" && typeof window !== undefined) {
+            if (
+              connector.name === "Injected" &&
+              typeof window !== "undefined"
+            ) {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               if (!(window as any).ethereum) {
                 return null;
