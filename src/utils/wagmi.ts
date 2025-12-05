@@ -17,7 +17,7 @@ export const wagmiConfig = createConfig({
       metadata: {
         name: "prompt2coin",
         description: "Generate AI images and launch Zora coins in one flow",
-        url: "https://example.com", // will update once deployed
+        url: "https://prompt2coin.up.railway.app",
         icons: [],
       },
     }),
